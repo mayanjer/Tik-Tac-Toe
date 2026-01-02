@@ -6,22 +6,22 @@ function App() {
   const [activePlayer, setActivePLayer] = useState("X");
 
   function onSelectHandler() {
-    console.log("Hello");
     setActivePLayer((prevPlayer) => (prevPlayer === "X" ? "O" : "X"));
   }
 
   return (
     <main>
       <div id="game-container">
-        <ol id="players">
-          <Player name="Player 1" symbol="X" />
-          <Player name="Player 2" symbol="O" />
+        <ol id="players" className="highlight-player">
+          <Player name="Player 1" symbol="X" isActive={activePlayer === "X"} />
+          <Player name="Player 2" symbol="O" isActive={activePlayer == "O"} />
         </ol>
         <GameBoard
           onSelect={onSelectHandler}
           activePlayerSymbol={activePlayer}
         />
       </div>
+      LOG
     </main>
   );
 }

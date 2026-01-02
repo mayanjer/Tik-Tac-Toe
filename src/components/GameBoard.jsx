@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { act } from "react-dom/test-utils";
 
 const initialBoard = [
   [null, null, null],
@@ -16,9 +15,8 @@ export default function GameBoard({ onSelect, activePlayerSymbol }) {
       updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
       return updatedBoard;
     });
-    
+    onSelect();
   }
-  onSelect();
 
   return (
     <ol id="game-board">
@@ -27,12 +25,7 @@ export default function GameBoard({ onSelect, activePlayerSymbol }) {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button
-                  onClick={() => 
-                    clickHandler(rowIndex, colIndex)
-               
-                  }
-                >
+                <button onClick={() => clickHandler(rowIndex, colIndex)}>
                   {playerSymbol}
                 </button>
               </li>
