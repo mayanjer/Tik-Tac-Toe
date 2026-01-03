@@ -1,7 +1,11 @@
-export default function Logs({player, square}) {
-    return <ol>
-        <p>{player}</p>
-        <p>{ square }</p>
-
-    </ol>
-}
+export default function Logs({turns}) {
+    return (
+      <ol id="log">
+        {turns.map((turn) => (
+          <li key={`${turn.square.row}${turn.square.col}`}>
+            {turn.player} selected {turn.square.row}, {turn.square.col}
+          </li>
+        ))}
+      </ol>
+    );
+} 

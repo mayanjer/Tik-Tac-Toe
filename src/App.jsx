@@ -22,6 +22,7 @@ function App() {
     });
   }
 
+
   return (
     <main>
       <div id="game-container">
@@ -35,7 +36,7 @@ function App() {
           turns={gameTurns}
         />
       </div>
-      <Logs />
+      <Logs turns={ gameTurns } />
     </main>
   );
 }
