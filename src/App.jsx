@@ -20,11 +20,15 @@ function deriveActivePlayer(gameTurns) {
 }
 
 function App() {
+  const [player, setPlayer] = useState({
+    X: 'Player 1',
+    0: 'Player 2'
+  });
   const [gameTurns, setGameTurn] = useState([]);
 
   const activePlayer = deriveActivePlayer(gameTurns);
 
-  let gameBoard = initialBoard;
+  let gameBoard = [...initialBoard.map((array) => [...array])];
 
   for (const turn of gameTurns) {
     const { square, player } = turn;
@@ -46,11 +50,11 @@ function App() {
       firstSquaresymbol === secondSquaresymbol &&
       firstSquaresymbol === thirdSquaresymbol
     ) {
-      winner = firstSquaresymbol;
+      winner = player[firstSquaresymbol];
     }
   }
 
-  const hasDraw = ((gameTurns.length === 9) && !winner)
+  const hasDraw = gameTurns.length === 9 && !winner;
 
   function onSelectHandler(rowIndex, colIndex) {
     setGameTurn((previousTurns) => {
@@ -66,18 +70,38 @@ function App() {
   }
 
   function rematchHandler() {
-    setGameTurn([])
-    gameBoard = initialBoard
+    setGameTurn([]);
+  }
+
+  function handlePlayerNameChange(symbol, newName) {
+    setPlayer((prevPlayers) => {
+      return {
+        ...prevPlayers,
+        [symbol]: newName,
+      };
+    });
   }
 
   return (
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player name="Player 1" symbol="X" isActive={activePlayer === "X"} />
-          <Player name="Player 2" symbol="O" isActive={activePlayer == "O"} />
+          <Player
+            name="Player 1"
+            symbol="X"
+            isActive={activePlayer === "X"}
+            onChangeName={handlePlayerNameChange}
+          />
+          <Player
+            name="Player 2"
+            symbol="O"
+            isActive={activePlayer == "O"}
+            onChangeName={handlePlayerNameChange}
+          />
         </ol>
-        {(winner || hasDraw) && <GameOver winner={winner} />}
+        {(winner || hasDraw) && (
+          <GameOver winner={winner} onRematch={rematchHandler} />
+        )}
         <GameBoard
           onSelect={onSelectHandler}
           activePlayerSymbol={activePlayer}
